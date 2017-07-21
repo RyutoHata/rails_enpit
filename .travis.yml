@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+- 2.2.5
+- jruby-19mode
+- rbx-2
+deploy:
+  provider: heroku
+  api_key:
+    secure: QpYAECIWMd9vXYYAcjaNkh+hDT84r7hh093VsnidGOo1FwzQjBprwovWb++bDE7psJADtfAG8WMWkhWTku9BZH0oKHcStQvd7WENJOBSkx6PNRSm/rEHH47oKj+uchqp0pbuVa9jUA1wKaLIbZiqn3ReHO8Mbu5tUEEVi//Wd634iE37QH/o4vQIBoqkhbC+tEIAbbkVY7PrnknBIT3IozcQqqDfULfn48gfqY8IkOtu/fJLg84puSGDJXmWn47MEuv9DbrB6X1iKj/CxbE78Pjvxq4hV6R7JMaSFXCtoG8sMQifq1CEESU+Uq77T2FGQIro9hJI/bZWeAmHNfeldoZS73CvSzbkdnXBDiQsm9jmGtZRtirEfLQcVYKNmjdPDGarIvGCHyyq3JA7nM0W1xCw6Fd6G244U3x8eQXjKNoVmg7lozXrPnVvqCqvkmcw+XxRnVCtIywtj8pe2ritZcvKU0uyF92Eob53BaZ6orPP7s2dEedZBe9d6mHwunx1VhdEg11UGGULMPdifjWjPz3QMPV0BFQuPowdxjIpaye9qwe4OF7jX4GXXRsUWxk99KH+dH102nQPzn8JOfiArd4GTaZydg7p6/41FwyVEu+ke0gcgbvNFb5vcN78kijgXmcVydE583zROUE//UzoVYb7NfGLD2d8R0uWpQ2bvEE=
+  app: evening-gorge-47309
+  on:
+    repo: RyutoHata/rails_enpit
+
+  addons:
+	postgresql: "9.3"
+  before_script:
+	- psql -c 'create database travis_ci_test;' -U postgres
+	- cp config/database.yml.travis config/database.yml
+	- bundle exec rake db:migrate RAILS_ENV=test
